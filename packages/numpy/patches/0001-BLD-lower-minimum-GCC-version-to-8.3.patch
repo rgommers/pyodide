@@ -1,0 +1,29 @@
+From 5e07d51fd7e34253a6f043e019008d23c27892de Mon Sep 17 00:00:00 2001
+From: Ralf Gommers <ralf.gommers@gmail.com>
+Date: Sat, 9 Sep 2023 18:52:31 +0200
+Subject: [PATCH] BLD: lower minimum GCC version to 8.3
+
+Pyodide uses GCC 8.3 for the initial stage of the build, rather than
+Emscripten.
+---
+ meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 0469f7f45..149b6c1e5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -26,8 +26,8 @@ cy = meson.get_compiler('cython')
+ 
+ # Check compiler is recent enough (see the SciPy Toolchain Roadmap for details)
+ if cc.get_id() == 'gcc'
+-  if not cc.version().version_compare('>=8.4')
+-    error('NumPy requires GCC >= 8.4')
++  if not cc.version().version_compare('>=8.3')
++    error('NumPy requires GCC >= 8.3')
+   endif
+ elif cc.get_id() == 'msvc'
+   if not cc.version().version_compare('>=19.20')
+-- 
+2.42.0
+

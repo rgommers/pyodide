@@ -1,24 +1,31 @@
 package:
   name: numpy
-  version: 1.25.2
+  version: 1.26.0rc1
   tag:
     - min-scipy-stack
   top-level:
     - numpy
 source:
-  url: https://files.pythonhosted.org/packages/a0/41/8f53eff8e969dd8576ddfb45e7ed315407d27c7518ae49418be8ed532b07/numpy-1.25.2.tar.gz
-  sha256: fd608e19c8d7c55021dffd43bfe5492fab8cc105cc8986f813f8c3c048b38760
+  url: https://files.pythonhosted.org/packages/33/a9/1233954ed69e96e829e6615a6e4a68e8c99d599661edff756fb4300c9a0b/numpy-1.26.0rc1.tar.gz
+  sha256: 49a8cafece27db51fd9ec78c044546b15b0c9bf95466c57ada9eeae64075c2f8
+
+  patches:
+    - patches/0001-BLD-lower-minimum-GCC-version-to-8.3.patch
 
 build:
-  backend-flags: --disable-optimization
+  script: |
+    export CFLAGS=${SIDE_MODULE_CFLAGS}
+    export LDFLAGS=${SIDE_MODULE_LDFLAGS}
+  backend-flags: |
+    setup-args=--cross-file=$PYODIDE_ROOT/tools/emscripten.meson.cross
+    -Ddisable-optimization=true
   cflags: |
     -Wno-return-type
-  cross-build-env: true
-  cross-build-files:
-    - numpy/core/include/numpy/numpyconfig.h
-    - numpy/core/include/numpy/_numpyconfig.h
-    - numpy/core/lib/libnpymath.a
-    - numpy/random/lib/libnpyrandom.a
+
+requirements:
+  run:
+    - packaging
+
 about:
   home: https://www.numpy.org
   PyPI: https://pypi.org/project/numpy
