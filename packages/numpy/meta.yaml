@@ -19,10 +19,14 @@ build:
   backend-flags: |
     setup-args=--cross-file=$PYODIDE_ROOT/tools/emscripten.meson.cross
     -Ddisable-optimization=true
+    -Dallow-noblas=true
   cflags: |
     -Wno-return-type
 
 requirements:
+  host:
+    # FIXME: openblas.pc and cblas.h aren't installed under packages/.libs/
+    - openblas
   run:
     - packaging
 
